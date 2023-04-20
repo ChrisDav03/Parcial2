@@ -17,8 +17,9 @@ const App = () => {
   return (
     <>
         <h1>TitleApp</h1>
+        <p>christian david posada</p>
         <hr />
-        {loading && <img src="./assets/spinner.gif" />}
+        {loading && <img src="./src/assets/spinner.gif" />}
 
         <ul>
           {
