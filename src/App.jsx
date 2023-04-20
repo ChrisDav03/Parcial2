@@ -1,21 +1,33 @@
-import { useState } from 'react'
-import { Provider } from 'react-redux'; // Se agrega el import del Provider de react-redux
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { titleApp } from './componentes/titleApp'
-import { store } from './store'; // Se importa el store de Redux creado en el archivo que contiene el slice y los thunks
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTitles } from './store/slices/titles';
 
-function App() {
-  const [count, setCount] = useState(0)
+
+const App = () => {
+
+  const dispatch = useDispatch();
+  const { loading, titles = []} = useSelector( state => state.titles );
+
+
+  useEffect(() => {
+    dispatch( getTitles() );    
+  }, [])
+  
 
   return (
-    <div className="App">
-      <Provider store={store}> {/* Se envuelve el componente titleApp dentro del Provider */}
-        <div>
-          <titleApp /> {/* Se llama al componente titleApp dentro del div */}
-        </div>
-      </Provider>
-    </div>
+    <>
+        <h1>TitleApp</h1>
+        <hr />
+        {loading && <img src="./assets/spinner.gif" />}
+
+        <ul>
+          {
+            titles.map( ({ title }) => (
+              <li key={ title }>{ title }</li>
+            ))
+          }
+        </ul>
+    </>
   )
 }
 
